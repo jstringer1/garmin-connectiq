@@ -75,7 +75,6 @@ class Model {
     }
     
     function getLapPace() {
-    	System.println(getLapTimer() + " / " + getLapDistance());
     	return getLapDistance() == 0 ? 0 : (getLapTimer() / getLapDistance() / 60000);
     }
     

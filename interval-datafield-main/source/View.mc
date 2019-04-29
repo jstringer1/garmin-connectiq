@@ -25,10 +25,12 @@ class View extends WatchUi.Drawable {
     }
 	
 	function drawActiveLap(dc) {
+		dc.setColor(getPaceColor(), Graphics.COLOR_TRANSPARENT);
+		dc.fillRectangle(0, 80, 240, 55);
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(120, 20, Graphics.FONT_NUMBER_HOT, formatDuration(model.getLapTimer()), Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(120, 20, Graphics.FONT_NUMBER_MEDIUM, formatDuration(model.getLapTimer()), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(120, 80, Graphics.FONT_NUMBER_HOT, formatPace(model.getLapPace()), Graphics.TEXT_JUSTIFY_CENTER);
-		dc.drawText(120, 140, Graphics.FONT_NUMBER_HOT, formatDistance(model.getLapDistance(), false), Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(120, 150, Graphics.FONT_NUMBER_MEDIUM, formatDistance(model.getLapDistance(), false), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(120, 200, Graphics.FONT_LARGE, model.getHr().format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
 		dc.fillRectangle(0, 75, 240, 5);
@@ -72,5 +74,18 @@ class View extends WatchUi.Drawable {
     
 	function formatPace(pace) {
     	return pace <= 0 ? "--:--" : pace.format("%02d") + ":" +((pace-Toybox.Math.floor(pace)) * 60).format("%02d");
+    }
+    
+    function getPaceColor() {
+    	if(model.getBestLap().getPace() == 0) {
+    		return Graphics.COLOR_WHITE;
+    	}
+    	if(model.getLapPace() < (model.getBestLap().getPace() + 0.1) && model.getLapPace() > (model.getBestLap().getPace() - 0.1)) {
+    		return Graphics.COLOR_WHITE;
+    	}
+    	if(model.getLapPace() < model.getBestLap().getPace()) {
+    		return Graphics.COLOR_GREEN;
+    	}
+    	return Graphics.COLOR_RED;
     }
 }

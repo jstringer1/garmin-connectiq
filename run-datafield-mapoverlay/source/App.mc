@@ -1,6 +1,6 @@
 using Toybox.Application;
 
-class rundatafieldmapoverlayApp extends Application.AppBase {
+class App extends Application.AppBase {
 
     function initialize() {
         AppBase.initialize();
@@ -13,7 +13,7 @@ class rundatafieldmapoverlayApp extends Application.AppBase {
     }
 
     function getInitialView() {
-        return [ new rundatafieldmapoverlayView() ];
+        return [ new Controller() ];
     }
 
 }

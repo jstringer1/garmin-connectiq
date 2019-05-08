@@ -21,7 +21,7 @@ class Service {
         	pace.add(paceData);
         }
         if(info has :currentHeartRate){
-        	var hr = info.currentHeartRate == null ? 0 : info.currentHeartRate;
+        	hr = info.currentHeartRate == null ? 0 : info.currentHeartRate;
         }
         model.setPace(Formatter.formatPace(pace.get()));
         model.setHr(hr.format("%d"));

@@ -1,6 +1,7 @@
 using Toybox.WatchUi;
 using Toybox.Application;
 using Toybox.Graphics;
+using Formatter;
 
 class Distance extends WatchUi.Drawable {
 
@@ -23,7 +24,7 @@ class Distance extends WatchUi.Drawable {
     	dc.setColor(calculateBackgroundColor(), Graphics.COLOR_TRANSPARENT);
     	dc.fillRectangle(0, 56, calculateBackgroundWidth(), 50);
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(120, 65, Graphics.FONT_MEDIUM, formatDistance(value), Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(120, 65, Graphics.FONT_MEDIUM, Formatter.formatDistance(value), Graphics.TEXT_JUSTIFY_CENTER);
     }
 
 	function calculateBackgroundColor() {
@@ -48,8 +49,4 @@ class Distance extends WatchUi.Drawable {
 	function calculateBackgroundWidth() {
 		return 240 * (value - value.toLong());
 	}
-	
-    function formatDistance(distance) {
-    	return distance.format("%.2f") + " Miles";
-    }
 }

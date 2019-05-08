@@ -1,6 +1,7 @@
 using Toybox.WatchUi;
 using Toybox.Application;
 using Toybox.Graphics;
+using Formatter;
 
 class HR extends WatchUi.Drawable {
 
@@ -25,7 +26,7 @@ class HR extends WatchUi.Drawable {
     	dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
     	dc.fillRectangle(0, 190, 240, 50);
 		dc.setColor(fgColor, Graphics.COLOR_TRANSPARENT);
-		dc.drawText(120, 195, Graphics.FONT_LARGE, value.format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(120, 195, Graphics.FONT_LARGE, Formatter.formatHr(value), Graphics.TEXT_JUSTIFY_CENTER);
     }
 
 	function calculateBackgroundColor() {

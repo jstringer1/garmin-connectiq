@@ -1,9 +1,4 @@
-# Do not hand edit this file. To make changes right click
-# on the project and select "Configure Monkey Barrels".
-
-ColourPicker = "C:\Users\john.stringer\workspaces\garmin\garmin-connectiq\run-datafield-main\..\colour-picker\bin\ColourPicker.barrel"
-base.barrelPath = $(base.barrelPath);$(ColourPicker)
-
-Formatter = "C:\Users\john.stringer\workspaces\garmin\garmin-connectiq\formatter\bin\Formatter.barrel"
-base.barrelPath = $(base.barrelPath);$(Formatter)
+ColourPicker = "..\colour-picker\bin\ColourPicker.barrel"
+Formatter = "..\formatter\bin\Formatter.barrel"
+base.barrelPath = $(base.barrelPath);$(Formatter);$(ColourPicker)
 

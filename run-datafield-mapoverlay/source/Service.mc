@@ -1,6 +1,7 @@
+using Formatter;
+
 class Service {
 
-	hidden var formatter = new Formatter();
 	hidden var pace = new RollingAvg();
     hidden var counter = 0;
 
@@ -22,20 +23,20 @@ class Service {
         if(info has :currentHeartRate){
         	var hr = info.currentHeartRate == null ? 0 : info.currentHeartRate;
         }
-        model.setPace(formatter.formatPace(pace.get()));
+        model.setPace(Formatter.formatPace(pace.get()));
         model.setHr(hr.format("%d"));
     	if(counter < 3) {
-    		model.setProgress(formatter.formatDistance(distance));
+    		model.setProgress(Formatter.formatDistance(distance));
     	} else if (counter < 6) {
-    		model.setProgress(formatter.formatDuration(timer));
+    		model.setProgress(Formatter.formatDuration(timer));
     	} else if (counter < 9) {
-    		model.setProgress(formatter.formatPace(pace.get()));
+    		model.setProgress(Formatter.formatPace(pace.get()));
     	} else {
-    		model.setProgress(hr.format("%d"));
+    		model.setProgress(Formatter.formatHr(hr));
     	}
         if(info has :currentHeartRate){
         	var hr = info.currentHeartRate == null ? 0 : info.currentHeartRate;
-        	model.setHr(hr.format("%d"));
+        	model.setHr(Formatter.formatHr(hr));
         }
 		counter = (counter + 1) % (model.getMini() ? 12 : 6);
 	}

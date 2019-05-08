@@ -5,6 +5,8 @@
         </iq:products>
         <iq:permissions/>
         <iq:languages/>
-        <iq:barrels/>
+        <iq:barrels>
+            <iq:depends name="Formatter" version="1.0.0"/>
+        </iq:barrels>
     </iq:application>
 </iq:manifest>

@@ -1,0 +1,3 @@
+Formatter = "..\formatter\bin\Formatter.barrel"
+base.barrelPath = $(base.barrelPath);$(Formatter)
+

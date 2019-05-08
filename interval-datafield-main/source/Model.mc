@@ -95,6 +95,24 @@ class Model {
     	return best;
     }
     
+    function getAvgLap() {
+    	if(getLapNumber() == 0) {
+    		return new LapSummary(0, 0, 0);
+    	}
+    	var pace = 0;
+    	var distance = 0;
+    	var duration = 0;
+    	for(var i = 0; i<getLapNumber(); i++) {
+    		pace = pace + getLap(i).getPace();
+    		distance = distance + getLap(i).getDistance();
+    		duration = duration + getLap(i).getDuration();
+    	}
+    	pace = pace / getLapNumber();
+    	distance = distance / getLapNumber();
+    	duration = duration / getLapNumber();
+    	return new LapSummary(pace, distance, duration);
+    }
+    
     class LapSummary {
     	hidden var pace;
     	hidden var distance;

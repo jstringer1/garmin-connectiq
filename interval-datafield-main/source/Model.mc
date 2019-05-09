@@ -13,17 +13,12 @@ class Model {
 	hidden var timerOffset = 0;
 	hidden var hr = 0;
 	hidden var laps = new [0];
-	
-    function initialize() {
-    }
+	hidden var view = :inactiveLap;
+	hidden var avgLapPace = 0;
+	hidden var bestLapPace = 0;
     
-    function incrementLap() {
-    	if(activeLap) {
-    		laps.add(new LapSummary(getLapPace(), getLapDistance(), getLapTimer()));
-    	}
-    	activeLap = !activeLap;
-    	distanceOffset = distance;
-    	timerOffset = timer;
+    function setView(v) {
+    	view = v;
     }
     
     function setTimer(t) {
@@ -40,6 +35,30 @@ class Model {
     
     function setError(e) {
     	error = e;
+    }
+    
+    function setDistanceOffset(d) {
+    	distanceOffset = d;
+    }
+    
+    function setTimerOffset(t) {
+    	timerOffset = t;
+    }
+    
+    function setBestLapPace(p) {
+    	bestLapPace = p;
+    }
+    
+    function setAvgLapPace(p) {
+    	avgLapPace = p;
+    }
+    
+    function addLap(pace, distance, duration) {
+    	laps.add(new LapSummary(pace, distance, duration));
+    }
+    
+    function getView() {
+    	return view;
     }
     
     function getError() {
@@ -82,35 +101,12 @@ class Model {
     	return laps[index];
     }
     
-    function getBestLap() {
-    	if(getLapNumber() == 0) {
-    		return new LapSummary(0, 0, 0);
-    	}
-    	var best = getLap(0);
-    	for(var i = 1; i<getLapNumber(); i++) {
-    		if(getLap(i).getPace() < best.getPace()) {
-    			best = getLap(i);
-    		}
-    	}
-    	return best;
+    function getBestLapPace() {
+    	return bestLapPace;
     }
     
-    function getAvgLap() {
-    	if(getLapNumber() == 0) {
-    		return new LapSummary(0, 0, 0);
-    	}
-    	var pace = 0;
-    	var distance = 0;
-    	var duration = 0;
-    	for(var i = 0; i<getLapNumber(); i++) {
-    		pace = pace + getLap(i).getPace();
-    		distance = distance + getLap(i).getDistance();
-    		duration = duration + getLap(i).getDuration();
-    	}
-    	pace = pace / getLapNumber();
-    	distance = distance / getLapNumber();
-    	duration = duration / getLapNumber();
-    	return new LapSummary(pace, distance, duration);
+    function getAvgLapPace() {
+    	return avgLapPace;
     }
     
     class LapSummary {

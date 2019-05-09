@@ -17,10 +17,12 @@ class View extends WatchUi.Drawable {
     function draw(dc) {
     	dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
     	dc.fillRectangle(0,0,240,240);
-    	if(model.isActiveLap()) {
+    	if(model.getView() == :activeLap) {
     		drawActiveLap(dc);
-    	} else {
+    	} else if(model.getView() == :inactiveLap) {
     		drawRecoveryLap(dc);
+    	} else if(model.getView() == :laps) {
+    		drawLaps(dc);
     	}
     }
 	
@@ -39,8 +41,9 @@ class View extends WatchUi.Drawable {
 	}
 	
 	function drawRecoveryLap(dc) {
-		drawLaps(dc);
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+		dc.drawText(120, 10, Graphics.FONT_LARGE, formatDuration(model.getLapTimer()), Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(120, 40, Graphics.FONT_LARGE, formatDistance(model.getLapDistance(), true), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(20, 95, Graphics.FONT_NUMBER_HOT, model.getLapNumber().format("%d"), Graphics.TEXT_JUSTIFY_LEFT);
 		dc.drawText(90, 90, Graphics.FONT_MEDIUM, formatDuration(model.getTimer()), Graphics.TEXT_JUSTIFY_LEFT);
 		dc.drawText(90, 115, Graphics.FONT_MEDIUM, formatDistance(model.getDistance(), true), Graphics.TEXT_JUSTIFY_LEFT);
@@ -53,19 +56,26 @@ class View extends WatchUi.Drawable {
 	}
 	
 	function drawLaps(dc) {
-	    if(model.getLapNumber() > 1) {
-	    	dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-	    	dc.drawText(120, 2, Graphics.FONT_SMALL, formatPace(model.getAvgLap().getPace()), Graphics.TEXT_JUSTIFY_CENTER);
-	    	dc.drawText(120, 60, Graphics.FONT_SMALL, formatPace(model.getBestLap().getPace()), Graphics.TEXT_JUSTIFY_CENTER);
-	    	dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-	    	dc.drawText(120, 20, Graphics.FONT_SMALL, formatPace(model.getLap(model.getLapNumber()-1).getPace()), Graphics.TEXT_JUSTIFY_CENTER);
-	    	dc.drawText(120, 40, Graphics.FONT_SMALL, formatPace(model.getLap(model.getLapNumber()-2).getPace()), Graphics.TEXT_JUSTIFY_CENTER);
-	    	dc.drawText(60, 20, Graphics.FONT_SMALL, model.getLapNumber(), Graphics.TEXT_JUSTIFY_CENTER);
-	    	dc.drawText(60, 40, Graphics.FONT_SMALL, (model.getLapNumber() - 1), Graphics.TEXT_JUSTIFY_CENTER);
-	    } else {
-	    	dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
-	    	dc.drawText(120, 30, Graphics.FONT_LARGE, formatPace(model.getAvgLap().getPace()), Graphics.TEXT_JUSTIFY_CENTER);
-	    }
+	    dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+	    dc.drawText(120, 190, Graphics.FONT_NUMBER_MEDIUM, formatPace(model.getAvgLapPace()), Graphics.TEXT_JUSTIFY_CENTER);
+		var y = 0;
+		for(var i = model.getLapNumber(); i > 0; i--) {
+			y = y + 20;
+			if(y <= 160) {
+				var pace = model.getLap(i-1).getPace();
+				if(pace == model.getBestLapPace()) {
+					dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+				} else if(pace < model.getAvgLapPace()) {
+					dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+				} else {
+					dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+				}
+				dc.fillRectangle(0, y+5, 240, 20);
+				dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+				dc.drawText(80, y, Graphics.FONT_SMALL, i.format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
+				dc.drawText(140, y, Graphics.FONT_SMALL, formatPace(model.getLap(i-1).getPace()), Graphics.TEXT_JUSTIFY_CENTER);
+			}
+		}
 	}
 	
     function formatDuration(duration) {
@@ -91,14 +101,13 @@ class View extends WatchUi.Drawable {
     }
     
     function getPaceColor() {
-    	var avg = model.getAvgLap();
-    	if(avg.getPace() == 0) {
+    	if(model.getAvgLapPace() == 0) {
     		return Graphics.COLOR_WHITE;
     	}
-    	if(model.getLapPace() < (avg.getPace() + 0.1) && model.getLapPace() > (avg.getPace() - 0.1)) {
+    	if(model.getLapPace() < (model.getAvgLapPace() + 0.1) && model.getLapPace() > (model.getAvgLapPace() - 0.1)) {
     		return Graphics.COLOR_WHITE;
     	}
-    	if(model.getLapPace() < avg.getPace()) {
+    	if(model.getLapPace() < model.getAvgLapPace()) {
     		return Graphics.COLOR_GREEN;
     	}
     	return Graphics.COLOR_RED;

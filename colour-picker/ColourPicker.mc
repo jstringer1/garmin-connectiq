@@ -2,6 +2,8 @@ using Toybox.Graphics;
 
 module ColourPicker {
 
+	const MAX_HR = 195;
+
 	function calculateColorsForPace(pace) {
 		if(pace == 0) {
 			return new ColourPair(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
@@ -38,5 +40,18 @@ module ColourPicker {
 			return new ColourTriplet(Graphics.COLOR_BLACK, Graphics.COLOR_WHITE, Graphics.COLOR_PURPLE);
 		}
     	return new ColourTriplet(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK, Graphics.COLOR_PINK);
+	}
+	
+	function calculateColoursForHr(hr) {
+		if(hr > (MAX_HR*0.97)) {
+    		return new ColourPair(Graphics.COLOR_RED, Graphics.COLOR_WHITE);
+    	} else if(hr > (MAX_HR*0.87)) {
+    		return new ColourPair(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK);
+    	} else if(hr > (MAX_HR*0.77)) {
+    		return new ColourPair(Graphics.COLOR_GREEN, Graphics.COLOR_BLACK);
+    	} else if(hr > (MAX_HR*0.66)) {
+    		return new ColourPair(Graphics.COLOR_BLUE, Graphics.COLOR_BLACK);
+    	}
+    	return new ColourPair(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
 	}
 }

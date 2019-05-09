@@ -2,6 +2,7 @@ using Toybox.WatchUi;
 using Toybox.Application;
 using Toybox.Graphics;
 using Formatter;
+using ColourPicker;
 
 class HR extends WatchUi.Drawable {
 
@@ -21,24 +22,10 @@ class HR extends WatchUi.Drawable {
 	}
 
     function draw(dc) {
-    	var bgColor = calculateBackgroundColor();
-    	var fgColor = bgColor == Graphics.COLOR_RED ? Graphics.COLOR_WHITE : Graphics.COLOR_BLACK;
-    	dc.setColor(bgColor, Graphics.COLOR_TRANSPARENT);
+    	var colours = ColourPicker.calculateColoursForHr(value);
+    	dc.setColor(colours.getBackground(), Graphics.COLOR_TRANSPARENT);
     	dc.fillRectangle(0, 190, 240, 50);
-		dc.setColor(fgColor, Graphics.COLOR_TRANSPARENT);
+		dc.setColor(colours.getForeground(), Graphics.COLOR_TRANSPARENT);
 		dc.drawText(120, 195, Graphics.FONT_LARGE, Formatter.formatHr(value), Graphics.TEXT_JUSTIFY_CENTER);
     }
-
-	function calculateBackgroundColor() {
-		if(value > (maxValue*0.97)) {
-    		return Graphics.COLOR_RED;
-    	} else if(value > (maxValue*0.87)) {
-    		return Graphics.COLOR_YELLOW;
-    	} else if(value > (maxValue*0.77)) {
-    		return Graphics.COLOR_GREEN;
-    	} else if(value > (maxValue*0.66)) {
-    		return Graphics.COLOR_BLUE;
-    	}
-    	return Graphics.COLOR_WHITE;
-	}
 }

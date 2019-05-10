@@ -1,0 +1,4 @@
+ColourPicker = "..\colour-picker\bin\ColourPicker.barrel"
+Formatter = "..\formatter\bin\Formatter.barrel"
+base.barrelPath = $(base.barrelPath);$(Formatter);$(ColourPicker)
+

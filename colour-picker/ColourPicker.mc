@@ -54,4 +54,27 @@ module ColourPicker {
     	}
     	return new ColourPair(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
 	}
+	
+	function calculateHighlightColourForTargetPace(targetPace, pace) {
+		if(targetPace == null || targetPace == 0) {
+			return Graphics.COLOR_WHITE;
+		}
+		if(pace < (targetPace + 0.1) && pace > (targetPace - 0.1)) {
+    		return Graphics.COLOR_GREEN;
+    	}
+    	if(pace < targetPace) {
+    		return Graphics.COLOR_BLUE;
+    	}
+    	return Graphics.COLOR_RED;
+	}
+	
+	function calculateHighlightColourForRelativePace(avgPace, maxPace, pace) {
+		if(pace == maxPace) {
+			return Graphics.COLOR_YELLOW;
+		} else if(pace < avgPace) {
+			return Graphics.COLOR_GREEN;
+		} else {
+			return Graphics.COLOR_RED;
+		}
+	}
 }

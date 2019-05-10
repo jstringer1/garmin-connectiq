@@ -46,11 +46,11 @@ class View extends WatchUi.Drawable {
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 		dc.drawText(120, 10, Graphics.FONT_LARGE, Formatter.formatDurationShort(model.getLapTimer()), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(120, 40, Graphics.FONT_LARGE, Formatter.formatDistance(model.getLapDistance()), Graphics.TEXT_JUSTIFY_CENTER);
-		dc.drawText(20, 80, Graphics.FONT_NUMBER_HOT, model.getLapNumber().format("%d"), Graphics.TEXT_JUSTIFY_LEFT);
-		dc.drawText(90, 75, Graphics.FONT_MEDIUM, Formatter.formatDurationShort(model.getTimer()), Graphics.TEXT_JUSTIFY_LEFT);
-		dc.drawText(90, 100, Graphics.FONT_MEDIUM, Formatter.formatDistance(model.getDistance()), Graphics.TEXT_JUSTIFY_LEFT);
-		dc.drawText(120, 140, Graphics.FONT_NUMBER_HOT, Formatter.formatPace(model.getLapPace()), Graphics.TEXT_JUSTIFY_CENTER);
-		dc.drawText(120, 210, Graphics.FONT_MEDIUM, model.getHr().format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(120, 80, Graphics.FONT_NUMBER_HOT, Formatter.formatPace(model.getLapPace()), Graphics.TEXT_JUSTIFY_CENTER);
+		dc.drawText(80, 140, Graphics.FONT_NUMBER_HOT, model.getLapNumber().format("%d"), Graphics.TEXT_JUSTIFY_RIGHT);
+		dc.drawText(100, 135, Graphics.FONT_MEDIUM, Formatter.formatDistance(model.getDistance()), Graphics.TEXT_JUSTIFY_LEFT);
+		dc.drawText(100, 160, Graphics.FONT_MEDIUM, Formatter.formatDurationShort(model.getTimer()), Graphics.TEXT_JUSTIFY_LEFT);
+		dc.drawText(120, 200, Graphics.FONT_MEDIUM, model.getHr().format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
 		dc.fillRectangle(0, 75, 240, 5);
 		dc.fillRectangle(0, 135, 240, 5);

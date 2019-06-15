@@ -7,6 +7,7 @@ using ColourPicker;
 class Distance extends WatchUi.Drawable {
 
 	hidden var value;
+	hidden var text;
 
     function initialize() {
     	value = 0;
@@ -16,7 +17,8 @@ class Distance extends WatchUi.Drawable {
         Drawable.initialize(dictionary);
     }
 
-	function setValue(v) {
+	function setValues(t, v) {
+		text = t;
 		value = v;
 	}
 
@@ -27,7 +29,11 @@ class Distance extends WatchUi.Drawable {
     	dc.setColor(colour.getHighlight(), Graphics.COLOR_TRANSPARENT);
     	dc.fillRectangle(0, 56, calculateBackgroundWidth(), 50);
 		dc.setColor(colour.getForeground(), Graphics.COLOR_TRANSPARENT);
-		dc.drawText(120, 65, Graphics.FONT_MEDIUM, Formatter.formatDistance(value), Graphics.TEXT_JUSTIFY_CENTER);
+    	if(text == null) {
+			dc.drawText(120, 65, Graphics.FONT_MEDIUM, Formatter.formatDistance(value), Graphics.TEXT_JUSTIFY_CENTER);
+		} else {
+			dc.drawText(120, 65, Graphics.FONT_MEDIUM, text, Graphics.TEXT_JUSTIFY_CENTER);
+		}
     }
 	
 	function calculateBackgroundWidth() {

@@ -1,6 +1,7 @@
 using Toybox.WatchUi;
 using Toybox.Graphics;
 using Toybox.Math;
+using Toybox.Attention;
 
 class rundatafieldmainView extends WatchUi.DataField {
 
@@ -10,6 +11,7 @@ class rundatafieldmainView extends WatchUi.DataField {
 	hidden var avgPace = 0;
     hidden var hr = 0;
     hidden var error;
+	hidden var next;
 
     function initialize() {
         DataField.initialize();
@@ -45,6 +47,24 @@ class rundatafieldmainView extends WatchUi.DataField {
        	if(info has :currentHeartRate){
        		hr = info.currentHeartRate == null ? 0 : info.currentHeartRate;
        	}
+       	calculateNavigation(info);
+    }
+    
+    function calculateNavigation(info) {
+       	if(info has :distanceToNextPoint && info has :nameOfNextPoint) {
+       		var name = info.nameOfNextPoint == null ? "" : info.nameOfNextPoint;
+       		var dist = info.distanceToNextPoint == null ? 0 : info.distanceToNextPoint;
+       		if(dist > 0 && dist < 25) {
+       			Attention.vibrate([new Attention.VibeProfile(100, 2000)]);
+       		}
+       		if(dist > 0 && dist < 100 && name != null) {
+       			next = name;
+       		} else {
+       			next = null;
+       		}
+       	} else {
+       		next = null;
+       	}
     }
 
     function onUpdate(dc) {
@@ -52,7 +72,7 @@ class rundatafieldmainView extends WatchUi.DataField {
     		View.findDrawableById("error_value").setText(error);
     	} else {
         	View.findDrawableById("Timer").setValue(timer);
-        	View.findDrawableById("Distance").setValue(distance);
+        	View.findDrawableById("Distance").setValues(next, distance);
         	View.findDrawableById("Pace").setValues(pace.get(), avgPace);
 			View.findDrawableById("HR").setValue(hr);
 		}

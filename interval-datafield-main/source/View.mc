@@ -29,13 +29,13 @@ class View extends WatchUi.Drawable {
     }
 	
 	function drawActiveLap(dc) {
+		drawHr(dc);
 		dc.setColor(ColourPicker.calculateHighlightColourForTargetPace(model.getAvgLapPace(), model.getLapPace()), Graphics.COLOR_TRANSPARENT);
 		dc.fillRectangle(0, 80, 240, 55);
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 		dc.drawText(120, 20, Graphics.FONT_NUMBER_MEDIUM, Formatter.formatDurationShort(model.getLapTimer()), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(120, 80, Graphics.FONT_NUMBER_HOT, Formatter.formatPace(model.getLapPace()), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(120, 150, Graphics.FONT_NUMBER_MEDIUM, Formatter.formatDistanceWithoutLabel(model.getLapDistance()), Graphics.TEXT_JUSTIFY_CENTER);
-		dc.drawText(120, 200, Graphics.FONT_LARGE, model.getHr().format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
 		dc.fillRectangle(0, 75, 240, 5);
 		dc.fillRectangle(0, 135, 240, 5);
@@ -43,6 +43,7 @@ class View extends WatchUi.Drawable {
 	}
 	
 	function drawRecoveryLap(dc) {
+		drawHr(dc);
 		dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
 		dc.drawText(120, 10, Graphics.FONT_LARGE, Formatter.formatDurationShort(model.getLapTimer()), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.drawText(120, 40, Graphics.FONT_LARGE, Formatter.formatDistance(model.getLapDistance()), Graphics.TEXT_JUSTIFY_CENTER);
@@ -50,7 +51,6 @@ class View extends WatchUi.Drawable {
 		dc.drawText(80, 140, Graphics.FONT_NUMBER_HOT, model.getLapNumber().format("%d"), Graphics.TEXT_JUSTIFY_RIGHT);
 		dc.drawText(100, 135, Graphics.FONT_MEDIUM, Formatter.formatDistance(model.getDistance()), Graphics.TEXT_JUSTIFY_LEFT);
 		dc.drawText(100, 160, Graphics.FONT_MEDIUM, Formatter.formatDurationShort(model.getTimer()), Graphics.TEXT_JUSTIFY_LEFT);
-		dc.drawText(120, 200, Graphics.FONT_MEDIUM, model.getHr().format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
 		dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
 		dc.fillRectangle(0, 75, 240, 5);
 		dc.fillRectangle(0, 135, 240, 5);
@@ -72,5 +72,13 @@ class View extends WatchUi.Drawable {
 				dc.drawText(140, y, Graphics.FONT_LARGE, Formatter.formatPace(model.getLap(i-1).getPace()), Graphics.TEXT_JUSTIFY_CENTER);
 			}
 		}
-	}   
+	}
+	
+	function drawHr(dc) {
+		var colours = ColourPicker.calculateColoursForHr(model.getHr());
+		dc.setColor(colours.getBackground(), Graphics.COLOR_TRANSPARENT);
+		dc.fillRectangle(0, 200, 240, 40);
+		dc.setColor(colours.getForeground(), Graphics.COLOR_TRANSPARENT);
+		dc.drawText(120, 200, Graphics.FONT_MEDIUM, model.getHr().format("%d"), Graphics.TEXT_JUSTIFY_CENTER);
+	}  
 }

@@ -7,6 +7,8 @@ using Toybox.Timer;
 
 class View extends WatchUi.WatchFace {
 
+	const JUSTIFY_CENTER = Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER;
+
 	var sleep = true;
 	var imgHeart;
 	var imgHeartBig;
@@ -14,7 +16,6 @@ class View extends WatchUi.WatchFace {
 	var imgShoe;
 	var imgShoeGrey;
 	var tick = 0;
-	
 	var timer;
 
     function initialize() {
@@ -63,70 +64,37 @@ class View extends WatchUi.WatchFace {
     }
     
     hidden function updateBackground(dc) {
-    	if(sleep) {
-    	dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-    	} else {
-    		dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_WHITE);
-    	}
+    	setSleepableColours(dc, Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
     	dc.fillRectangle(0,0,240,240);
     }
     
     hidden function updateDate(dc) {
     	var date = Time.Gregorian.info( Time.now(), Time.FORMAT_MEDIUM );
     	var dateString = Lang.format("$1$ $2$ $3$", [date.day_of_week, date.day, date.month]);
-    	if(sleep) {
-    		dc.setColor(0xABABAB, Graphics.COLOR_TRANSPARENT);
-    	} else {
-    		dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT);
-    	}
-    	dc.drawText(120, 70, Graphics.FONT_MEDIUM, dateString, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+    	setSleepableColour(dc, Graphics.COLOR_RED);
+    	dc.drawText(120, 70, Graphics.FONT_MEDIUM, dateString, JUSTIFY_CENTER);
     }
     
     hidden function updateTime(dc) {
     	var clockTime = System.getClockTime();
     	var timeString = Lang.format("$1$:$2$", [clockTime.hour, clockTime.min.format("%02d")]);
-    	if(sleep) {
-    		dc.setColor(0xABABAB, Graphics.COLOR_TRANSPARENT);
-    	} else {
-    		dc.setColor(0x0000FF, Graphics.COLOR_TRANSPARENT);
-    	}
-        dc.drawText(120, 120, Graphics.FONT_NUMBER_THAI_HOT, timeString, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+    	setSleepableColour(dc, Graphics.COLOR_BLUE);
+        dc.drawText(120, 120, Graphics.FONT_NUMBER_THAI_HOT, timeString, JUSTIFY_CENTER);
     }
     
     hidden function updateHR(dc) {
-    	var hrIterator = ActivityMonitor.getHeartRateHistory(null, false);
-    	var sample = hrIterator.next();
-    	if( sample == null ) {
+    	var hr = getHR();
+    	if(hr == null) {
     		return;
     	}
-    	while( sample.heartRate > 200 ) {
-    		sample = hrIterator.next();
-    	}
-    	if( sample.heartRate > 200 ) {
-    		return;
-    	}
-    	if(sleep) {
-    		dc.setColor(0xABABAB, Graphics.COLOR_TRANSPARENT);
-    	} else {
-    		dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT);
-    	}
-    	if(sleep) {
-    		dc.drawBitmap(87, 192, imgHeartGrey);
-    	} else if(isBigHeartTick()) {
-    		dc.drawBitmap(85, 190, imgHeartBig);
-    	} else {
-    		dc.drawBitmap(87, 192, imgHeart);
-    	}
-    	dc.drawText(115, 200, Graphics.FONT_MEDIUM, sample.heartRate, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+    	setSleepableColour(dc, Graphics.COLOR_RED);
+    	drawHeartImg(dc);
+    	dc.drawText(115, 200, Graphics.FONT_MEDIUM, hr, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
     
     hidden function updateSteps(dc) {
     	var info = ActivityMonitor.getInfo();
-    	if(sleep) {
-    		dc.setColor(0xABABAB, Graphics.COLOR_TRANSPARENT);
-    	} else {
-        	dc.setColor(0xFF0000, Graphics.COLOR_TRANSPARENT);
-        }
+        setSleepableColour(dc, Graphics.COLOR_RED);
     	dc.drawText(115, 170, Graphics.FONT_MEDIUM, info.steps, Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     	if(sleep) {
     		dc.drawBitmap(85, 160, imgShoeGrey);
@@ -173,11 +141,48 @@ class View extends WatchUi.WatchFace {
     	}
     }
     
+    hidden function getHR() {
+    	var hrIterator = ActivityMonitor.getHeartRateHistory(null, false);
+    	var sample = hrIterator.next();
+    	if( sample == null ) {
+    		return null;
+    	}
+    	while( sample.heartRate > 200 ) {
+    		sample = hrIterator.next();
+    	}
+    	if( sample.heartRate > 200 ) {
+    		return null;
+    	}
+    	return sample.heartRate;
+    }
+    
+    hidden function drawHeartImg(dc) {
+    	if(sleep) {
+    		dc.drawBitmap(87, 192, imgHeartGrey);
+    	} else if(isBigHeartTick()) {
+    		dc.drawBitmap(85, 190, imgHeartBig);
+    	} else {
+    		dc.drawBitmap(87, 192, imgHeart);
+    	}
+    }
+    
     hidden function isBigHeartTick() {
     	var remainder = tick;
     	while(remainder > 3) {
     		remainder -= 3;
     	}
     	return (remainder == 3);
+    }
+    
+    hidden function setSleepableColour(dc, colour) {
+    	setSleepableColours(dc, colour, 0xABABAB);
+    }
+    
+    hidden function setSleepableColours(dc, colour, sleepColour) {
+    	if(sleep) {
+    		dc.setColor(sleepColour, Graphics.COLOR_TRANSPARENT);
+    	} else {
+    		dc.setColor(colour, Graphics.COLOR_TRANSPARENT);
+    	}
     }
 }

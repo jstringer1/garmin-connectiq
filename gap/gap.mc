@@ -29,6 +29,7 @@ module Gap {
 		hidden var distance = 0;
 		hidden var altitude = 0;
 		hidden var currentGrade = 0;
+		hidden var currentPace = 0;
 		hidden var currentGAP = 0;
 		hidden var grade;
 		hidden var pace;
@@ -40,6 +41,10 @@ module Gap {
 		
 		function getGrade() {
 			return currentGrade;
+		}
+		
+		function getPace() {
+			return currentPace;
 		}
 		
 		function getGAP() {
@@ -59,7 +64,8 @@ module Gap {
 			distance = info.elapsedDistance;
 			altitude = info.altitude;
 			currentGrade = grade.get();
-			currentGAP = adjustPaceForGrade( pace.get(), currentGrade );
+			currentPace = pace.get();
+			currentGAP = adjustPaceForGrade( currentPace, currentGrade );
 		}
 		
 		hidden function infoIsValid( info ) {

@@ -77,4 +77,27 @@ module ColourPicker {
 			return Graphics.COLOR_RED;
 		}
 	}
+	
+	function calculateColoursForGrade( grade ) {
+		if( grade < -0.3 ) {
+			return new ColourPair(Graphics.COLOR_PURPLE, Graphics.COLOR_WHITE);
+		} else if( grade < -0.25 ) {
+			return new ColourPair(Graphics.COLOR_DK_RED, Graphics.COLOR_WHITE);
+		} else if( grade < -0.2 ) {
+			return new ColourPair(Graphics.COLOR_RED, Graphics.COLOR_WHITE);
+		} else if( grade < -0.18 ) {
+			return new ColourPair(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK);
+		} else if( grade < 0 ) {
+			return new ColourPair(Graphics.COLOR_GREEN, Graphics.COLOR_BLACK);
+		} else if ( grade < 0.04 ) {
+			return new ColourPair(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK);
+		} else if ( grade < 0.07 ) {
+			return new ColourPair(Graphics.COLOR_RED, Graphics.COLOR_WHITE);
+		} else if ( grade < 0.1 ) {
+			return new ColourPair(Graphics.COLOR_DK_RED, Graphics.COLOR_WHITE);
+		} else if ( grade < 0.17 ) {
+			return new ColourPair(Graphics.COLOR_PURPLE, Graphics.COLOR_WHITE);
+		}
+		return new ColourPair(Graphics.COLOR_PINK, Graphics.COLOR_BLACK);
+	}
 }

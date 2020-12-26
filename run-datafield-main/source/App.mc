@@ -1,6 +1,6 @@
 using Toybox.Application;
 
-class rundatafieldmainApp extends Application.AppBase {
+class App extends Application.AppBase {
 
     function initialize() {
         AppBase.initialize();
@@ -13,7 +13,7 @@ class rundatafieldmainApp extends Application.AppBase {
     }
 
     function getInitialView() {
-        return [ new rundatafieldmainView() ];
+        return [ new DataField() ];
     }
 
 }

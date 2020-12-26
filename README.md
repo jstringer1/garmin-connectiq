@@ -3,8 +3,8 @@ Bits a pieces of monkeyc written for my garmin fenix 5 plus.
 
 
 # Running Datascreen
-![screenshot2](run-datafield-main/screenshots/screenshot2.png "screenshot2")
-![screenshot1](run-datafield-main/screenshots/screenshot1.png "screenshot1")
+![screenshot3](run-datafield-main/screenshots/screenshot3.png "screenshot3")
+![screenshot4](run-datafield-main/screenshots/screenshot4.png "screenshot4")
 
 
 # Interval Datascreen

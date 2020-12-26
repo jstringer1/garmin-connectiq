@@ -1,4 +1,5 @@
 ColourPicker = "..\colour-picker\bin\colour-picker.barrel"
 Formatter = "..\formatter\bin\formatter.barrel"
-base.barrelPath = $(base.barrelPath);$(Formatter);$(ColourPicker)
+Gap = "..\gap\bin\gap.barrel"
+base.barrelPath = $(base.barrelPath);$(Formatter);$(ColourPicker);$(Gap)
 

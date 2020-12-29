@@ -21,3 +21,7 @@ Bits a pieces of monkeyc written for my garmin fenix 5 plus.
 ![screenshot1](basic-watchface/screenshots/screenshot1.png "screenshot1")
 ![screenshot2](basic-watchface/screenshots/screenshot2.png "screenshot2")
 ![screenshot3](basic-watchface/screenshots/screenshot3.png "screenshot3")
+
+
+# Tide Times Widget
+![screenshot1](tide-times/screenshots/Screenshot1.png "screenshot1")

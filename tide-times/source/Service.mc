@@ -1,3 +1,5 @@
+using Toybox.Application;
+
 class Service {
 
   const HOLYHEAD_URL = "https://stringerj.co.uk/tide-times/station/holyhead/predictions";
@@ -8,12 +10,9 @@ class Service {
   };
   const UNKNOWN = [ new TideTime( "HIGH", "---"), new TideTime( "LOW", "---" ), new TideTime( "HIGH", "---"), new TideTime( "LOW", "---" ) ];
   
-  var holyheadData;
-  var llandudnoData;
-  
   function getTideTimes() {
-    var holyhead = extractTodaysData( holyheadData );
-    var llandudno = extractTodaysData( llandudnoData );
+    var holyhead = extractTodaysData( Application.Storage.getValue( "holyhead" ) );
+    var llandudno = extractTodaysData( Application.Storage.getValue( "llandudno" ) );
     if( holyhead == null ) {
       Communications.makeWebRequest( HOLYHEAD_URL, {}, OPTIONS, method(:setHolyheadData) );
       holyhead = UNKNOWN;
@@ -26,21 +25,19 @@ class Service {
   }
   
   function setHolyheadData( code, data ) {
-    System.println( data );
     if( code == 200 ) {
-      holyheadData = data;
+      Application.Storage.setValue( "holyhead", data );
     }
-    if( holyheadData != null && llandudnoData != null ) {
+    if( Application.Storage.getValue( "holyhead" ) != null && Application.Storage.getValue( "llandudno" ) != null ) {
       WatchUi.requestUpdate();
     }
   }
   
   function setLLandudnoData( code, data ) {
-    System.println( data );
     if( code == 200 ) {
-      llandudnoData = data;
+      Application.Storage.setValue( "llandudno", data );
     }
-    if( holyheadData != null && llandudnoData != null ) {
+    if( Application.Storage.getValue( "holyhead" ) != null && Application.Storage.getValue( "llandudno" ) != null ) {
       WatchUi.requestUpdate();
     }
   }

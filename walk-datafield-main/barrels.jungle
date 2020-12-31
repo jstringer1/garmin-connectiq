@@ -1,0 +1,4 @@
+Formatter = "..\formatter\bin\formatter.barrel"
+Gap = "..\gap\bin\gap.barrel"
+base.barrelPath = $(base.barrelPath);$(Formatter);$(Gap)
+
